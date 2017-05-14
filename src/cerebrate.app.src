@@ -1,0 +1,17 @@
+{application, cerebrate,
+ [
+  {mod, { cerebrate_app, []}},
+
+  {description, "cerebrate - a distributed erlang node connector"},
+  {vsn, "0.1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []},
+
+  {maintainers, ["vans163"]},
+  {licenses,["GPL-3.0"]},
+  {links,[{"Github","https://github.com/vans163/cerebrate"}]}
+ ]}.
