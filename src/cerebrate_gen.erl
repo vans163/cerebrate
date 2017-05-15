@@ -48,7 +48,8 @@ p_connect_node(Node) ->
         false -> ignore;
         true ->
             LocalHost = unicode:characters_to_binary(net_adm:localhost()),
-            FullNode = binary_to_atom(<<BinNode, "@", LocalHost>>, latin1),
+            FullNode = binary_to_atom(
+                <<BinNode/binary, "@", LocalHost/binary>>, latin1),
             net_kernel:connect_node(FullNode)
     end,
 
@@ -59,7 +60,8 @@ p_connect_node(Node) ->
             case lists:member(Node, RemoteNames) of
                 false -> ignore;
                 true ->
-                    FullNode2 = binary_to_atom(<<BinNode, "@", BinNode>>, latin1),
+                    FullNode2 = binary_to_atom(
+                        <<BinNode/binary, "@", BinNode/binary>>, latin1),
                     net_kernel:connect_node(FullNode2)
             end
     end.
