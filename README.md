@@ -29,7 +29,10 @@ cerebrate:join(ListOfNodes)
 
 ListOfNodes is a list of atoms, where the atom is either the sname of an erlang node, or the hostname of a machine on the network.  
   
-  
-cerebrate:block(ListOfNodes)  
 
-This blocks execution until all nodes in ListOfNodes are available in erlang:nodes/0.
+cerebrate:block(ListOfNodes)  
+cerebrate:block(ListOfNodes, Timeout)
+
+This blocks execution until all nodes in ListOfNodes are available in erlang:nodes/0.  
+
+Timeout by default is infinite.
