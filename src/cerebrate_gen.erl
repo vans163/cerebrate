@@ -41,9 +41,15 @@ handle_info(tick, S) ->
 p_connect_node(Node) ->
     {ok, LocalNamesPropsList} = net_adm:names(),
     LocalNames = [list_to_atom(NodeF)||{NodeF,_}<-LocalNamesPropsList],
+    
+    BinNode = atom_to_binary(Node, latin1),
+
     case lists:member(Node, LocalNames) of
         false -> ignore;
-        true -> net_adm:connect_node(Node)
+        true ->
+            LocalHost = net_adm:localhost(),
+            FullNode = binary_to_atom(<<BinNode, "@", LocalHost>>, latin1),
+            net_kernel:connect_node(FullNode)
     end,
 
     case net_adm:names(Node) of
@@ -53,8 +59,7 @@ p_connect_node(Node) ->
             case lists:member(Node, RemoteNames) of
                 false -> ignore;
                 true ->
-                    BinNode = atom_to_binary(Node, latin1),
-                    FullNode = binary_to_atom(<<BinNode, "@", BinNode>>, latin1),
-                    net_adm:connect_node(FullNode)
+                    FullNode2 = binary_to_atom(<<BinNode, "@", BinNode>>, latin1),
+                    net_kernel:connect_node(FullNode2)
             end
     end.
