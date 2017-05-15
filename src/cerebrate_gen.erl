@@ -10,7 +10,6 @@ start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 init([]) ->
     io:format("~p: Started!~n", [?MODULE]),
-    ok = net_kernel:monitor_nodes(true, [nodedown_reason]),
     catch ets:new(cerebrate_nodes, [ordered_set, public, named_table]),
     erlang:send_after(1, self(), tick),
     {ok, #{}}.
@@ -27,12 +26,6 @@ handle_call({leave, NodeList}, _, S) ->
         end, NodeList),
     {reply, ok, S}.
 
-
-handle_info({nodeup, _Node, _InfoList}, S) ->
-    {noreply, S};
-handle_info({nodedown, _Node, _InfoList}, S) ->
-    io:format("~p: nodedown InfoList ~p~n", [?MODULE, _InfoList]),
-    {noreply, S};
 
 handle_info(tick, S) ->
     NodesTuple = ets:tab2list(cerebrate_nodes),

@@ -20,13 +20,16 @@ The idea behind cerebrate is to define a few core erlang nodes that can be used 
 
 ```erlang
 
-cerebrate:join([core_1, core_2, core_3], #{block=> true}).
+cerebrate:join([core_1, core_2, core_3]),
+cerebrate:block([core_1]).
 ```
 
 ## API
-cerebrate:join(ListOfNodes, OptionMap)
+cerebrate:join(ListOfNodes)  
 
-ListOfNodes is a list of atoms, where the atom is either the sname of an erlang node, or the hostname of a machine on the network.
+ListOfNodes is a list of atoms, where the atom is either the sname of an erlang node, or the hostname of a machine on the network.  
+  
+  
+cerebrate:block(ListOfNodes)  
 
-OptionMap is a list of options.  
-    {block, true} - This blocks execution until all nodes in ListOfNodes are available in erlang:nodes/0.
+This blocks execution until all nodes in ListOfNodes are available in erlang:nodes/0.
